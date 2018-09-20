@@ -10,9 +10,9 @@ import { MoviesComponent } from './movies/movies.component';
 import { MovieComponent } from './movies/movie/movie.component';
 
 const appRoutes: Routes = [
-  { path: '', component: MovieComponent }
+  { path: 'movies/:movie/:type/:page', component: MoviesComponent },
+  { path: 'movie/:imdbID/:type', component: MovieComponent }
 ];
-
 
 @NgModule({
   declarations: [

@@ -1,24 +1,31 @@
 import { Injectable } from "@angular/core";
-import { Http } from "@angular/http";
+import { Http, Response } from "@angular/http";
+import { ActivatedRoute } from '@angular/router';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class MoviesService {
 
-    movies:{
-        /*Poster: string,
-        Title: string,
-        Year: string*/
-      } [] = [];
+   //movies: any;
+   pages: string = '';
 
-   constructor(private url: Http) {  }   
+   constructor(private url: Http, private route: ActivatedRoute) {  } 
 
-   load_movies(movie: string, page: number) {
+   load_movies(movie: string, type: string, page?: string) {
        //console.log("Hola");
-       return this.url.get('http://www.omdbapi.com/?apikey=26be8198&s='+movie+'&page='+page);
+       if(page != 'none'){
+           this.pages = '&page='+page;
+        }
+        //console.log('http://www.omdbapi.com/?apikey=26be8198&'+type+'='+movie+this.pages);
+       return this.url.get('http://www.omdbapi.com/?apikey=26be8198&'+type+'='+movie+this.pages).pipe(map(
+           (parametro: Response)=>{
+               return parametro.json();
+           }
+       ))
    }
 
-   setMovie(Response){
-    this.movies.push(Response);
+   /*setMovie(Response){
+    this.movies = Response;
     console.log(this.movies);
-  }
+   }*/
 }
